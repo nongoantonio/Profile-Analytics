@@ -1,0 +1,99 @@
+/*
+  index.css — reset global, fontes e "design tokens" (variáveis CSS).
+  Paleta própria, inspirada em ferramentas de developer (terminal,
+  editor de código): fundo quase preto, verde vivo como destaque
+  principal, âmbar para avisos, tipografia monoespaçada para números
+  e títulos.
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap");
+
+:root {
+  /* --- Paleta (tema "developer dashboard") --- */
+  --color-bg: #0b0e11; /* fundo principal, quase preto */
+  --color-surface: #14181f; /* fundo dos cartões */
+  --color-surface-raised: #1b202a; /* hover / elementos ligeiramente elevados */
+  --color-border: #262c37;
+  --color-ink: #e8eaed; /* texto principal */
+  --color-muted: #8b94a3; /* texto secundário */
+  --color-accent: #4ade80; /* verde vivo — destaque principal */
+  --color-accent-dim: #1f6b45;
+  --color-warning: #fbbf24; /* âmbar — avisos, limites de API */
+  --color-danger: #f87171;
+
+  /* --- Tipografia --- */
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-pill: 999px;
+  --shadow-card: 0 12px 28px -18px rgba(0, 0, 0, 0.6);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-mono);
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
