@@ -17,9 +17,11 @@ export class RateLimitError extends Error {
 }
 
 export class UserNotFoundError extends Error {
+  username: string;
   constructor(username: string) {
-    super(`Não existe nenhum utilizador do GitHub chamado "${username}".`);
+    super(`GitHub user "${username}" not found.`);
     this.name = "UserNotFoundError";
+    this.username = username;
   }
 }
 

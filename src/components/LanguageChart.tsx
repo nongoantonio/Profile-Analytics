@@ -1,5 +1,6 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
 import type { LanguageSlice } from "../types/github";
+import { useLanguage } from "../context/LanguageContext";
 
 interface LanguageChartProps {
   data: LanguageSlice[];
@@ -10,10 +11,12 @@ interface LanguageChartProps {
 const COLORS = ["#4ade80", "#fbbf24", "#38bdf8", "#f472b6", "#a78bfa", "#94a3b8"];
 
 export function LanguageChart({ data }: LanguageChartProps) {
+  const { t } = useLanguage();
+
   if (data.length === 0) {
     return (
       <div className="language-chart language-chart--empty">
-        <p>Sem dados de linguagem suficientes para desenhar o gráfico.</p>
+        <p>{t.languageChart.empty}</p>
       </div>
     );
   }
@@ -43,7 +46,7 @@ export function LanguageChart({ data }: LanguageChartProps) {
               color: "#e8eaed",
               fontSize: "0.85rem",
             }}
-            formatter={(value, name) => [`${value} repositórios`, name]}
+            formatter={(value, name) => [`${value} ${t.languageChart.tooltipSuffix}`, name]}
           />
           <Legend
             verticalAlign="bottom"

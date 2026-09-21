@@ -65,10 +65,10 @@ export function useGitHubProfile() {
 
       const message =
         error instanceof UserNotFoundError
-          ? error.message
+          ? null // o texto traduzido para "utilizador não encontrado" vive na interface (t.errors.*), não aqui
           : error instanceof Error
             ? error.message
-            : "Ocorreu um erro inesperado.";
+            : "Unexpected error.";
 
       setState((prev) => ({ ...prev, status: "error", errorMessage: message }));
     }

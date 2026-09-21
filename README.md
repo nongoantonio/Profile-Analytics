@@ -5,13 +5,22 @@ Escreve um username do GitHub e vê **linguagens mais usadas** (gráfico),
 com a [API pública do GitHub](https://docs.github.com/en/rest),
 gratuita e sem necessidade de conta.
 
-Projeto de estudo em **React + TypeScript + Vite**, construído como
-segundo projeto de portfólio (depois do
-[Atlas Interativo](https://github.com/nongoantonio/explorador-de-paises)),
-desta vez focado em **consumir uma API real de produção** — com todas
-as dificuldades que isso traz e que uma API "de brincar" não tem:
-limites de pedidos, erros 404 reais, dados que variam muito de
-utilizador para utilizador.
+Projeto de estudo em **React + TypeScript + Vite**, focado em
+**consumir uma API real de produção** — com todas as dificuldades que
+isso traz: limites de pedidos, erros 404 reais, dados que variam
+muito de utilizador para utilizador.
+
+---
+
+## ✨ Funcionalidades
+
+- 🔎 Análise de qualquer perfil público do GitHub por username
+- 📊 Gráfico de linguagens mais usadas (Recharts, carregado só quando é preciso)
+- ⭐ Repositórios em destaque, ordenados por estrelas (sem forks)
+- 🕓 Atividade pública recente, traduzida em frases legíveis (commits, PRs, issues, etc.)
+- 🌍 Interface em **português, inglês e francês**, com deteção automática do idioma do browser e memória da escolha
+- 🟢 Indicador em tempo real dos pedidos restantes à API (limite de 60/hora sem autenticação)
+- 🎨 Identidade visual própria: tema escuro estilo terminal, com um fundo inspirado no "calendário de contribuições" do GitHub (feito só com SVG, sem copiar nenhum logótipo)
 
 ---
 
@@ -22,12 +31,11 @@ autenticação. Cada pesquisa nesta app gasta **3 pedidos** (perfil,
 repositórios, atividade), por isso dá para pesquisar cerca de **20
 perfis por hora** antes de bateres no limite.
 
-Por isso a barra de pesquisa **não é dinâmica** como no projeto do
-Atlas — só pesquisa quando submetes (Enter ou botão), em vez de a
-cada letra escrita. Com uma API local isso não custava nada; com uma
-API real e limitada, filtrar a cada tecla desperdiçaria o limite em
-segundos. É uma decisão de UX a partir de uma restrição técnica real,
-não um acaso.
+Por isso a barra de pesquisa **não é dinâmica** (filtrar a cada letra
+escrita, como seria fácil de fazer sobre dados locais) — só pesquisa
+quando submetes (Enter ou botão). Com uma API real e limitada,
+filtrar a cada tecla desperdiçaria o limite em segundos. É uma
+decisão de UX a partir de uma restrição técnica real, não um acaso.
 
 A app mostra sempre, no canto da pesquisa, quantos pedidos ainda
 restam (lidos diretamente dos cabeçalhos `X-RateLimit-*` que o GitHub
@@ -56,7 +64,7 @@ próprio é um bom teste) e clica em "Analisar".
 
 ## 🚀 Publicação no GitHub Pages
 
-Já vem preparado, tal como o projeto do Atlas:
+Configuração já preparada para publicação automática:
 
 1. Confirma que o nome em `vite.config.ts` (`base: '/github-analytics/'`)
    bate certo com o nome exato do teu repositório
@@ -77,6 +85,7 @@ Já vem preparado, tal como o projeto do Atlas:
 | [Recharts](https://recharts.org/) | gráfico de linguagens (donut chart) |
 | Framer Motion | animações de entrada nas secções e na lista de repositórios |
 | lucide-react + react-icons | ícones (o logo do GitHub vem do react-icons, porque o lucide-react deixou de incluir ícones de marcas) |
+| Context API + `Intl` nativo | sistema de idiomas PT/EN/FR, com datas e números formatados no idioma certo |
 
 ---
 
@@ -91,12 +100,18 @@ src/
 │   ├── LanguageChart.tsx    # gráfico Recharts, carregado com lazy()
 │   ├── RepoList.tsx         # repositórios mais populares (por estrelas, sem forks)
 │   ├── ActivityFeed.tsx     # traduz eventos da API (PushEvent, etc.) em frases legíveis
-│   └── SectionCard.tsx      # contentor genérico das secções do dashboard
+│   ├── SectionCard.tsx      # contentor genérico das secções do dashboard
+│   ├── Logo.tsx             # ícone da marca (mesmo desenho do favicon), em SVG
+│   ├── LanguageSwitcher.tsx # seletor PT/EN/FR
+│   └── ContributionGraphBackground.tsx  # fundo decorativo estilo "heatmap" de contribuições
+├── context/
+│   └── LanguageContext.tsx  # idioma atual + função de tradução, persistido no localStorage
 ├── hooks/
 │   └── useGitHubProfile.ts  # orquestra os 3 pedidos e todo o estado (loading/erro/rate-limit)
 ├── lib/
 │   ├── githubApi.ts         # única camada que fala com api.github.com
-│   └── repoStats.ts         # agregações puras (linguagens, top repos, total de estrelas)
+│   ├── repoStats.ts         # agregações puras (linguagens, top repos, total de estrelas)
+│   └── translations.ts      # dicionário PT/EN/FR
 ├── types/github.ts          # tipos das respostas da API
 ```
 
@@ -114,6 +129,11 @@ src/
   2 pedidos à toa contra o limite de 60/hora.
 - **`lazy()` no gráfico**: o Recharts é pesado; só é descarregado
   depois da primeira pesquisa ter sucesso.
+- **Traduções com uma `interface` explícita, não `typeof`**: o
+  `TranslationTable` é escrito à mão (não inferido a partir do objeto
+  `pt`), porque inferir a partir de um objeto concreto prendia cada
+  campo ao texto EXATO desse idioma — os outros idiomas não conseguiam
+  ter textos diferentes sem o TypeScript se queixar.
 
 ---
 

@@ -1,16 +1,24 @@
 import { motion } from "framer-motion";
 import { MapPin, Building2, Link as LinkIcon, Users, BookMarked, Star, Calendar } from "lucide-react";
 import type { GitHubUser } from "../types/github";
+import { useLanguage } from "../context/LanguageContext";
 
 interface ProfileCardProps {
   user: GitHubUser;
   totalStars: number;
 }
 
-const dateFormatter = new Intl.DateTimeFormat("pt-PT", { year: "numeric", month: "long" });
-const numberFormatter = new Intl.NumberFormat("pt-PT");
+// "locale" muda consoante o idioma escolhido na interface — assim as
+// datas ("janeiro de 2019" vs "January 2019" vs "janvier 2019") e a
+// formatação de milhares (1.234 vs 1,234) seguem o idioma certo.
+const LOCALES: Record<string, string> = { pt: "pt-PT", en: "en-US", fr: "fr-FR" };
 
 export function ProfileCard({ user, totalStars }: ProfileCardProps) {
+  const { t, language } = useLanguage();
+  const locale = LOCALES[language];
+  const dateFormatter = new Intl.DateTimeFormat(locale, { year: "numeric", month: "long" });
+  const numberFormatter = new Intl.NumberFormat(locale);
+
   return (
     <motion.section
       className="profile-card"
@@ -44,7 +52,8 @@ export function ProfileCard({ user, totalStars }: ProfileCardProps) {
             </a>
           )}
           <span>
-            <Calendar size={14} strokeWidth={2} aria-hidden="true" /> desde {dateFormatter.format(new Date(user.created_at))}
+            <Calendar size={14} strokeWidth={2} aria-hidden="true" /> {t.profile.since}{" "}
+            {dateFormatter.format(new Date(user.created_at))}
           </span>
         </div>
       </div>
@@ -53,17 +62,17 @@ export function ProfileCard({ user, totalStars }: ProfileCardProps) {
         <div className="stat">
           <Users size={16} strokeWidth={2} aria-hidden="true" />
           <strong>{numberFormatter.format(user.followers)}</strong>
-          <span>seguidores</span>
+          <span>{t.profile.followers}</span>
         </div>
         <div className="stat">
           <BookMarked size={16} strokeWidth={2} aria-hidden="true" />
           <strong>{numberFormatter.format(user.public_repos)}</strong>
-          <span>repositórios</span>
+          <span>{t.profile.repos}</span>
         </div>
         <div className="stat">
           <Star size={16} strokeWidth={2} aria-hidden="true" />
           <strong>{numberFormatter.format(totalStars)}</strong>
-          <span>estrelas</span>
+          <span>{t.profile.stars}</span>
         </div>
       </div>
     </motion.section>

@@ -1,10 +1,14 @@
 // App.tsx decide O QUE mostrar consoante o estado (idle / loading /
 // success / error / rate-limited) — toda a lógica de pedidos vive no
-// hook useGitHubProfile, tal como no projeto do Atlas.
+// hook useGitHubProfile.
 import { Suspense, lazy } from "react";
 import { Code2, Star, Activity } from "lucide-react";
 import { useGitHubProfile } from "./hooks/useGitHubProfile";
+import { useLanguage } from "./context/LanguageContext";
 import { summarizeLanguages, topRepositories, totalStars } from "./lib/repoStats";
+import { Logo } from "./components/Logo";
+import { LanguageSwitcher } from "./components/LanguageSwitcher";
+import { ContributionGraphBackground } from "./components/ContributionGraphBackground";
 import { SearchBar } from "./components/SearchBar";
 import { RateLimitBadge } from "./components/RateLimitBadge";
 import { ProfileCard } from "./components/ProfileCard";
@@ -25,17 +29,22 @@ const LanguageChart = lazy(() =>
 
 function App() {
   const { user, repos, events, status, errorMessage, rateLimit, search } = useGitHubProfile();
+  const { t } = useLanguage();
 
   return (
     <div className="app">
       <header className="app__hero">
+        <ContributionGraphBackground />
         <div className="app__hero-texture" aria-hidden="true" />
-        <p className="app__eyebrow">$ github-analytics --user</p>
-        <h1>Análise de perfis do GitHub</h1>
-        <p className="app__subtitle">
-          Escreve um username e vê linguagens, repositórios em destaque e atividade recente —
-          tudo com a API pública do GitHub, sem conta nem chave.
-        </p>
+
+        <div className="app__hero-topbar">
+          <Logo size={36} />
+          <LanguageSwitcher />
+        </div>
+
+        <p className="app__eyebrow">{t.hero.eyebrow}</p>
+        <h1>{t.hero.title}</h1>
+        <p className="app__subtitle">{t.hero.subtitle}</p>
         <SearchBar onSearch={search} isLoading={status === "loading"} />
         <RateLimitBadge rateLimit={rateLimit} />
       </header>
@@ -44,17 +53,14 @@ function App() {
         {status === "loading" && <Loader />}
 
         {status === "error" && (
-          <StateMessage
-            title="Não encontrámos esse perfil"
-            description={errorMessage ?? "Verifica se o username está escrito corretamente."}
-          />
+          <StateMessage title={t.errors.notFoundTitle} description={errorMessage ?? t.errors.notFoundFallback} />
         )}
 
         {status === "rate-limited" && rateLimit && (
           <StateMessage
             variant="rate-limit"
-            title="Limite de pedidos atingido"
-            description={`A API pública do GitHub permite 60 pedidos por hora sem autenticação. Tenta novamente às ${rateLimit.resetAt.toLocaleTimeString("pt-PT")}.`}
+            title={t.errors.rateLimitTitle}
+            description={t.errors.rateLimitDescription(rateLimit.resetAt.toLocaleTimeString())}
           />
         )}
 
@@ -63,18 +69,18 @@ function App() {
             <ProfileCard user={user} totalStars={totalStars(repos)} />
 
             <div className="app__grid">
-              <SectionCard title="Linguagens mais usadas" icon={<Code2 size={17} strokeWidth={2} />}>
-                <Suspense fallback={<div className="language-chart--empty"><p>A carregar gráfico...</p></div>}>
+              <SectionCard title={t.sections.languages} icon={<Code2 size={17} strokeWidth={2} />}>
+                <Suspense fallback={<div className="language-chart--empty"><p>...</p></div>}>
                   <LanguageChart data={summarizeLanguages(repos)} />
                 </Suspense>
               </SectionCard>
 
-              <SectionCard title="Atividade recente" icon={<Activity size={17} strokeWidth={2} />} delay={0.05}>
+              <SectionCard title={t.sections.activity} icon={<Activity size={17} strokeWidth={2} />} delay={0.05}>
                 <ActivityFeed events={events} />
               </SectionCard>
             </div>
 
-            <SectionCard title="Repositórios em destaque" icon={<Star size={17} strokeWidth={2} />} delay={0.1}>
+            <SectionCard title={t.sections.repos} icon={<Star size={17} strokeWidth={2} />} delay={0.1}>
               <RepoList repos={topRepositories(repos)} />
             </SectionCard>
           </div>
@@ -82,7 +88,7 @@ function App() {
 
         {status === "idle" && (
           <div className="app__empty-state">
-            <p>Escreve um username do GitHub acima para começar — por exemplo, o teu próprio.</p>
+            <p>{t.empty.idle}</p>
           </div>
         )}
       </main>

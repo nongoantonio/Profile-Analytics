@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Star, GitFork } from "lucide-react";
 import type { GitHubRepo } from "../types/github";
+import { useLanguage } from "../context/LanguageContext";
 
 interface RepoListProps {
   repos: GitHubRepo[];
@@ -26,8 +27,10 @@ const LANGUAGE_COLORS: Record<string, string> = {
 const numberFormatter = new Intl.NumberFormat("pt-PT");
 
 export function RepoList({ repos }: RepoListProps) {
+  const { t } = useLanguage();
+
   if (repos.length === 0) {
-    return <p className="repo-list__empty">Este perfil ainda não tem repositórios públicos originais.</p>;
+    return <p className="repo-list__empty">{t.repoList.empty}</p>;
   }
 
   return (

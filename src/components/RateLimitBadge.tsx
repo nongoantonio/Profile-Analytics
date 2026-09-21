@@ -4,8 +4,10 @@
 // mostrar: é literalmente o tema técnico principal deste projeto.
 import { Gauge } from "lucide-react";
 import type { RateLimitInfo } from "../types/github";
+import { useLanguage } from "../context/LanguageContext";
 
 export function RateLimitBadge({ rateLimit }: { rateLimit: RateLimitInfo | null }) {
+  const { t } = useLanguage();
   if (!rateLimit) return null;
 
   const isLow = rateLimit.remaining <= 10;
@@ -14,7 +16,7 @@ export function RateLimitBadge({ rateLimit }: { rateLimit: RateLimitInfo | null 
     <div className={"rate-limit-badge" + (isLow ? " is-low" : "")}>
       <Gauge size={14} strokeWidth={2.2} aria-hidden="true" />
       <span>
-        {rateLimit.remaining}/{rateLimit.limit} pedidos restantes
+        {rateLimit.remaining}/{rateLimit.limit} {t.rateLimit.remaining}
       </span>
     </div>
   );
