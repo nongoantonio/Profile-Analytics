@@ -59,7 +59,7 @@ export const translations: Record<Language, TranslationTable> = {
         "Escreve um username e vê linguagens, repositórios em destaque e atividade recente — tudo com a API pública do GitHub, sem conta nem chave.",
     },
     search: {
-      placeholder: "username do GitHub (ex.: torvalds)",
+      placeholder: "Introduz o teu username",
       button: "Analisar",
       buttonLoading: "A procurar...",
     },
@@ -119,7 +119,7 @@ export const translations: Record<Language, TranslationTable> = {
         "Type a username to see top languages, featured repositories and recent activity — powered entirely by the public GitHub API, no account or key needed.",
     },
     search: {
-      placeholder: "GitHub username (e.g. torvalds)",
+      placeholder: "Enter your username",
       button: "Analyze",
       buttonLoading: "Searching...",
     },
@@ -178,7 +178,7 @@ export const translations: Record<Language, TranslationTable> = {
         "Saisis un nom d'utilisateur pour voir les langages, les dépôts en vedette et l'activité récente — via l'API publique de GitHub, sans compte ni clé.",
     },
     search: {
-      placeholder: "nom d'utilisateur GitHub (ex. : torvalds)",
+      placeholder: "Saisis ton nom d'utilisateur",
       button: "Analyser",
       buttonLoading: "Recherche...",
     },

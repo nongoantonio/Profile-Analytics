@@ -44,7 +44,6 @@ function App() {
 
         <p className="app__eyebrow">{t.hero.eyebrow}</p>
         <h1>{t.hero.title}</h1>
-        <p className="app__subtitle">{t.hero.subtitle}</p>
         <SearchBar onSearch={search} isLoading={status === "loading"} />
         <RateLimitBadge rateLimit={rateLimit} />
       </header>
