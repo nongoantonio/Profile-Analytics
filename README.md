@@ -1,6 +1,6 @@
 # 🖥️ GitHub Profile Analytics
 
-🔗 **Site publicado:**  https://profile-analytics-alpha.vercel.app/
+🔗 **Site publicado:** [profile-analytics-alpha.vercel.app](https://profile-analytics-alpha.vercel.app/)
 
 ![Captura de ecrã do GitHub Profile Analytics](screenshots/hero.png)
 
@@ -168,3 +168,7 @@ src/
 ## 👤 Autor
 
 **Nongo António** — [GitHub](https://github.com/nongoantonio) · [LinkedIn](https://www.linkedin.com/in/nongo-ant%C3%B3nio-9691603a3/)
+
+---
+
+Copyright © 2026 Nongo António. Distribuído sob a licença [MIT](LICENSE).

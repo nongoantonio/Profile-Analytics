@@ -91,6 +91,10 @@ function App() {
           </div>
         )}
       </main>
+
+      <footer className="app__footer">
+        <p>{t.footer.copyright(new Date().getFullYear())}</p>
+      </footer>
     </div>
   );
 }

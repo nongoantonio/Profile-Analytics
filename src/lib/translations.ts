@@ -48,6 +48,7 @@ export interface TranslationTable {
     issueUpdated: (repo: string) => string;
     generic: (repo: string) => string;
   };
+  footer: { copyright: (year: number) => string };
 }
 
 export const translations: Record<Language, TranslationTable> = {
@@ -110,6 +111,7 @@ export const translations: Record<Language, TranslationTable> = {
       issueUpdated: (repo: string) => `Atualizou uma issue em ${repo}`,
       generic: (repo: string) => `Atividade em ${repo}`,
     },
+    footer: { copyright: (year: number) => `© ${year} Nongo António` },
   },
   en: {
     hero: {
@@ -169,6 +171,7 @@ export const translations: Record<Language, TranslationTable> = {
       issueUpdated: (repo: string) => `Updated an issue in ${repo}`,
       generic: (repo: string) => `Activity in ${repo}`,
     },
+    footer: { copyright: (year: number) => `© ${year} Nongo António` },
   },
   fr: {
     hero: {
@@ -228,5 +231,6 @@ export const translations: Record<Language, TranslationTable> = {
       issueUpdated: (repo: string) => `A mis à jour une issue dans ${repo}`,
       generic: (repo: string) => `Activité dans ${repo}`,
     },
+    footer: { copyright: (year: number) => `© ${year} Nongo António` },
   },
 };
