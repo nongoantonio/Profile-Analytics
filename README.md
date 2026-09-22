@@ -1,5 +1,9 @@
 # 🖥️ GitHub Profile Analytics
 
+🔗 **Site publicado:** [SUBSTITUI-PELO-TEU-LINK-DA-VERCEL](https://profile-analytics-alpha.vercel.app/
+
+![Captura de ecrã do GitHub Profile Analytics](screenshots/hero.png)
+
 Escreve um username do GitHub e vê **linguagens mais usadas** (gráfico),
 **repositórios em destaque**, e **atividade pública recente** — tudo
 com a [API pública do GitHub](https://docs.github.com/en/rest),
@@ -62,17 +66,30 @@ próprio é um bom teste) e clica em "Analisar".
 
 ---
 
-## 🚀 Publicação no GitHub Pages
+## 🚀 Publicação
 
-Configuração já preparada para publicação automática:
+O site está publicado na **Vercel**. A app não usa nenhum sistema de
+rotas, e o `vite.config.ts` usa `base: './'` (caminhos relativos) —
+por isso funciona tanto na raiz de um domínio (Vercel) como numa
+subpasta (GitHub Pages), sem precisar de configuração diferente
+consoante o destino.
 
-1. Confirma que o nome em `vite.config.ts` (`base: '/github-analytics/'`)
-   bate certo com o nome exato do teu repositório
-2. O repositório tem de ser **público** (GitHub Pages no plano
+### Vercel (usado neste projeto)
+
+1. Importa o repositório em [vercel.com/new](https://vercel.com/new)
+2. A Vercel deteta automaticamente que é um projeto Vite — não precisa
+   de nenhuma configuração extra (comando de build e pasta de saída já
+   vêm certos: `npm run build` → `dist`)
+3. Cada `git push` para `main` gera um novo deploy automaticamente
+
+### GitHub Pages (alternativa)
+
+Também já vem preparado, com o workflow `.github/workflows/deploy.yml`:
+
+1. O repositório tem de ser **público** (GitHub Pages no plano
    gratuito não publica repositórios privados)
-3. **Settings → Pages → "Build and deployment" → Source: "GitHub Actions"**
-4. `git push` para `main` — o workflow `.github/workflows/deploy.yml`
-   trata do resto sozinho
+2. **Settings → Pages → "Build and deployment" → Source: "GitHub Actions"**
+3. `git push` para `main` — o workflow trata do resto sozinho
 
 ---
 
