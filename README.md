@@ -1,6 +1,6 @@
 # 🖥️ GitHub Profile Analytics
 
-🔗 **Site publicado:** [SUBSTITUI-PELO-TEU-LINK-DA-VERCEL](https://profile-analytics-alpha.vercel.app/
+🔗 **Site publicado:**https://profile-analytics-alpha.vercel.app/
 
 ![Captura de ecrã do GitHub Profile Analytics](screenshots/hero.png)
 
